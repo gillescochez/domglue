@@ -1,13 +1,3 @@
-/*  
-    Usage aimed for
-
-	// bind to exsisting dom
-	var dom = domglue('#dom', {foo:'foo'});
-
-	dom.foo('FOO');
-	dom._(); // data
-	dom.$(); // new selector
-*/
 function domglue(selector, data, options) {
     return new domglue.init(selector, data, options);
 }
@@ -24,7 +14,7 @@ domglue.init = function(selector, data, options) {
 
     // grab the target
     var target = selector.nodeName ? selector : domglue.query(selector);
-
+console.log(target);
     // an object to store elements that are binded to data
     this[0] = {};
 
@@ -35,41 +25,48 @@ domglue.init = function(selector, data, options) {
     domglue.bind(this, target, data, options); 
 
     // extend self with data based methods
-    domglue.extend(this, data);
+    domglue.extend(this);
+
+    // set original data
+    domglue.update(this);
 
     // return self
     return this;
 }
 
-// extend current instance with data based methods
-domglue.extend = function(instance, data) {
+domglue.update = function(instance) {
     
-    for (var name in data) {
-	
-	(function(name) {
-
-	    instance[name] = function(val) {
-
-		instance[1][name] = val;
-
-		if (instance[0][name]) instance[0][name].innerHTML = val;
-
-	    }
-
-	})(name);
-
-
+    for (var name in instance[0]) {
+	instance[0][name].innerHTML = instance[1][name];
     }
 
 }
 
+// extend current instance with data based methods
+domglue.extend = function(instance) {
+    
+    for (var name in instance[1]) {
+	
+	(function(name) {
+
+	    instance[name] = function(val) {
+		instance[1][name] = val;
+		if (instance[0][name]) instance[0][name].innerHTML = val;
+	    }
+
+	})(name)
+    }
+}
+
 // bind data to DOM element available
 domglue.bind = function (instance, target, data, options) {
-    
+
     var elements = target.getElementsByTagName('*'),
 	len = elements.length,
 	i = 0,
-	attr;
+	attr = target.getAttribute(options.attr);
+
+    if (attr) instance[0][attr] = target;
 
     for (; i < len; i++) {
 
@@ -77,62 +74,5 @@ domglue.bind = function (instance, target, data, options) {
 
 	// do we need to bind the element
 	if (attr && data[attr] !== undefined) instance[0][attr] = elements[i];
-    }
-}
-
-// query the dom accept (id => #foo, tag => div, class = div.class)
-domglue.query = function(selector) {
-
-    var hash = selector.substr(0,1),
-	tagName,
-	tagClass,
-	elements,
-	cbits,
-	ebits,
-	temp,
-	len
-	eq,
-	i;
-
-    if (hash === '#') return document.getElementById(selector.replace(hash, ''));
-    else {
-
-	// look for class or : bits
-	cbits = selector.split('.');
-	ebits = selector.split(':');
-
-	// class base
-	if (cbits[1]) {
-
-	    tagClass = ebits[1] ? cbits[1].replace(ebits[1], '') : cbits[1];
-	    tagName = cbits[0];
-
-	// tag based
-	} else {
-
-	    tagClass = null;
-	    tagName = ebits[1] ? selector.replace(ebits[1], '') : selector;
-	}
-
-	// grab elements
-	elements = document.getElementsByTagName(tagName);
-
-	if (tagClass) {
-
-	    temp = [];
-
-	    for (i = 0, len = elements.length; i < len; i++) {
-		if (this.className.indexOf(tagClass) !== -1) temp.push(elements[i]);
-	    }
-	    
-	    elements = temp;
-	}
-
-	if (ebits[1]) {
-	    elements = elements[ebits[1]];
-	}
-
-	return elements;
-
     }
 }
