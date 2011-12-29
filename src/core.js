@@ -8,20 +8,80 @@
 	dom._(); // data
 	dom.$(); // new selector
 */
-function domglue(selector, data) {
-    return new domglue.init(selector, data);
+function domglue(selector, data, options) {
+    return new domglue.init(selector, data, options);
 }
 
-domglue.init = function(selector, data) {
-    
-    var target = selector.nodeName ? selector : get(selector);
-
-    
+domglue.settings = {
+    attr: 'data-bind',
+    regex: null
 }
 
-domglue.fn = domglue.init.prototype;
+domglue.init = function(selector, data, options) {
+    
+    // sort instance options
+    options = extend(domglue.settings, options, true);
 
-function get(selector) {
+    // grab the target
+    var target = selector.nodeName ? selector : domglue.query(selector);
+
+    // an object to store elements that are binded to data
+    this[0] = {};
+
+    // store the data
+    this[1] = data;
+
+    // bind DOM to data 
+    domglue.bind(this, target, data, options); 
+
+    // extend self with data based methods
+    domglue.extend(this, data);
+
+    // return self
+    return this;
+}
+
+// extend current instance with data based methods
+domglue.extend = function(instance, data) {
+    
+    for (var name in data) {
+	
+	(function(name) {
+
+	    instance[name] = function(val) {
+
+		instance[1][name] = val;
+
+		if (instance[0][name]) instance[0][name].innerHTML = val;
+
+	    }
+
+	})(name);
+
+
+    }
+
+}
+
+// bind data to DOM element available
+domglue.bind = function (instance, target, data, options) {
+    
+    var elements = target.getElementsByTagName('*'),
+	len = elements.length,
+	i = 0,
+	attr;
+
+    for (; i < len; i++) {
+
+	attr = elements[i].getAttribute(options.attr);
+
+	// do we need to bind the element
+	if (attr && data[attr] !== undefined) instance[0][attr] = elements[i];
+    }
+}
+
+// query the dom accept (id => #foo, tag => div, class = div.class)
+domglue.query = function(selector) {
 
     var hash = selector.substr(0,1),
 	tagName,

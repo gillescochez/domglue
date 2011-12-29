@@ -7,8 +7,11 @@ function extend(target, options, newObj) {
     var name, src, copy,
 	obj = {};
 
-    // Extend the base object
-    for (name in target) {
+    // extend object with target if needed 
+    if (newObj) extend(obj, target);
+
+    // extend the base object
+    for (name in options) {
 	
 	// grab original and new value
 	src = target[name];
@@ -17,13 +20,8 @@ function extend(target, options, newObj) {
 	// Prevent never-ending loop
 	if (target === copy) continue;
 
-	if (src !== undefined) obj[name] = src;
-
 	// Don't copy undefined values
-	if (copy !== undefined) {
-	    if (!newObj) target[name] = copy;
-	    else obj[name] = copy;
-	}
+	if (copy !== undefined) (newObj ? obj : target)[name] = copy;
     }
 
     return newObj ? obj : target;
