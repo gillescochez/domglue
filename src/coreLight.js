@@ -3,13 +3,10 @@ function domglue(selector, data, options) {
 }
 
 // initialization method
-domglue.init = function(selector, data, options) {
+domglue.init = function(target, data, options) {
 	
     // sort instance options
     options = extend(domglue.settings, options, true);
-
-    // grab the target
-    var target = selector.nodeName ? selector : domglue.query(selector);
 
     // an object to store elements that are binded to data
     this[0] = {};
