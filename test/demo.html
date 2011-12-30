@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<script src="../build/domglue.js"></script>
+<body>
+<div id="content">
+    <h1 data-bind="title">Title</h1>
+    <p data-bind="message">Message</p>
+</div>
+<script>
+var data = {
+    title: 'Hellow World',
+    message: 'I am filled in by domglue'
+},
+dg = domglue('#content', data); 
+
+// this will update the Message in 3 seconds
+setTimeout(function() {
+    dg.message('New message is now in place');
+}, 3000);
+</script>
+</body>
+</html>
+

@@ -14,7 +14,7 @@ domglue.init = function(selector, data, options) {
 
     // grab the target
     var target = selector.nodeName ? selector : domglue.query(selector);
-console.log(target);
+
     // an object to store elements that are binded to data
     this[0] = {};
 
