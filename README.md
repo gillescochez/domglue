@@ -1,6 +1,6 @@
 ## Domglue
 
-Domglue is a tiny data to dom element binding engine. It provides only basic interpolation, the data keys are bind to elements found on the DOM. Everytime a data key value gets updated the DOM element gets automatically updated.
+Domglue is a tiny (~1.2KB full, ~0.8KB) data to dom element binding engine. It provides only basic interpolation, the data keys are bind to elements found on the DOM. Everytime a data key value gets updated the DOM element gets automatically updated.
 
 ## Core API
 
