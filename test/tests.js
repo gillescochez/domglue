@@ -28,7 +28,7 @@ test('DOM queries', function() {
 
 test('Methods', function() {
 
-    expect(2);
+    expect(3);
 
     // we build a fake object to be able to test internal methods
     var obj = {};
@@ -43,5 +43,10 @@ test('Methods', function() {
     // update name test
     domglue.updateName(obj, 'foo');
     equal(obj[0].foo[0].innerHTML, 'foo', 'updateName');
+
+    // update test
+    obj[1].foo = 'FOO'; // change data object value
+    domglue.update(obj);
+    equal(obj[0].foo[0].innerHTML, 'FOO', 'update');
 
 });

@@ -1,4 +1,3 @@
 domglue.settings = {
-    attr: 'data-bind',
-    regex: null
+    attr: 'data-bind'
 }
