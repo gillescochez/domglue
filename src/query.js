@@ -36,13 +36,16 @@ domglue.query = function(selector) {
 
 	if (tagClass) {
 
-	    temp = [];
+	    if (document.getElementsByClassName) elements = document.getElementsByClassName(tagClass);
+	    else {
+		temp = [];
 
-	    for (i = 0, len = elements.length; i < len; i++) {
-		if (elements[i].className.indexOf(tagClass) !== -1) temp.push(elements[i]);
-	    }
+		for (i = 0, len = elements.length; i < len; i++) {
+		    if (elements[i].className.indexOf(tagClass) !== -1) temp.push(elements[i]);
+		}
 	    
-	    elements = temp;
+		elements = temp;
+	    }
 	}
 
 	if (ebits[1]) elements = elements[ebits[1]];

@@ -8,8 +8,8 @@ domglue.init = function(selector, data, options) {
     // sort instance options
     options = extend(domglue.settings, options, true);
 
-    // grab the target
-    var target = selector.nodeName ? selector : domglue.query(selector);
+    // if selector is an object we assume HTML Element or Array of elements
+    var target = isObject(selector) ? selector : domglue.query(selector);
 
     // an object to store elements that are binded to data
     this[0] = {};

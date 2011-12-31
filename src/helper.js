@@ -26,3 +26,14 @@ function extend(target, options, newObj) {
 
     return newObj ? obj : target;
 }
+
+// object type check helper
+function isObject(it) {
+    return typeof it  === 'object';
+}
+
+// array type check helper
+function isArray(it) {
+    if (isObject(it)) return it.constructor == Array;
+    else return false;
+}

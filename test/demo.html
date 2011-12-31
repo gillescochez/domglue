@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html>
-<script src="../build/domglue.js"></script>
+<script src="../src/core.js"></script>
+<script src="../src/helper.js"></script>
+<script src="../src/settings.js"></script>
+<script src="../src/query.js"></script>
+<script src="../src/methods.js"></script>
 <body>
 <div id="content">
     <h1 data-bind="title">Title</h1>
     <p data-bind="message">Message</p>
+</div>
+<div class="loop">
+    <p data-bind="foo"></p>
+</div>
+<div class="loop">
+    <p data-bind="foo"></p>
 </div>
 <script>
 var data = {
@@ -17,6 +27,12 @@ dg = domglue('#content', data);
 setTimeout(function() {
     dg.message('New message is now in place');
 }, 3000);
+
+// array test, if data is not array then same data for all elements else data[i] = target[i]
+var dg2 = domglue('div.loop', {foo:'foo'});
+setTimeout(function() {
+    dg2.foo('FOO');
+}, 5000);
 </script>
 </body>
 </html>
