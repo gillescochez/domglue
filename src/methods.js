@@ -1,16 +1,21 @@
 extend(domglue, {
 
     // update the DOM with the data object values
-    update: function(instance) {
+    update: function(instance, key) {
 
 	var name, len, i;
 
-	for (name in instance[0]) {
-	    for (i = 0, len = instance[0][name].length; i < len; i++ ){
-		instance[0][name][i].innerHTML = instance[1][name];
-	    }
+	if (key) this.updateName(instance, key);
+	else {
+	    for (name in instance[0]) this.updateName(instance, name);
 	}
+    },
 
+    // update a specific data key
+    updateName: function(instance, name) {
+	for (i = 0, len = instance[0][name].length; i < len; i++ ){
+	    instance[0][name][i].innerHTML = instance[1][name];
+	}
     },
 
     // extend current instance with data based methods
@@ -23,14 +28,8 @@ extend(domglue, {
 	    (function(name) {
 
 		instance[name] = function(val) {
-
 		    instance[1][name] = val;
-
-		    if (instance[0][name]) {
-			for (i = 0, len = instance[0][name].length; i < len; i++) {
-			    instance[0][name][i].innerHTML = val;
-			}
-		    }
+		    if (instance[0][name]) domglue.updateName(instance, name);
 		}
 
 	    })(name)
