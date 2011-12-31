@@ -4,7 +4,7 @@ Domglue is a tiny (~1.2KB full, ~0.8KB light) data to dom element binding engine
 
 ## Core API
 
-### domglue( string | DOMElement selector, object data, object options);
+### domglue( String selector | HTML Element | Nodelist, object data, object options);
 
 Grab DOM elements, bind data to elements found and return an object containing methods based on the data keys which allows to update the data object.
 
@@ -20,6 +20,12 @@ The options object is optional and can be used to change the settings for the in
 <div id="content">
     <h1 data-bind="title">Title</h1>
     <p data-bind="message">Message</p>
+</div>
+<div class="loop">
+    <p data-bind="foo"></p>
+</div>
+<div class="loop">
+    <p data-bind="foo"></p>
 </div>
 <script>
 ```
@@ -37,6 +43,12 @@ var data = {
     setTimeout(function() {
 	dg.message('New message is now in place');
     }, 3000);
+
+var dg2 = domglue('div.loop', {foo:'foo'});
+
+setTimeout(function() {
+    dg2.foo('Foo');
+}, 5000);
 
 
 ```
