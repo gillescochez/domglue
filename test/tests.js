@@ -26,14 +26,22 @@ test('DOM queries', function() {
 
 });
 
-test('Extend', function() {
+test('Methods', function() {
 
-    expect(1);
+    expect(2);
 
+    // we build a fake object to be able to test internal methods
     var obj = {};
     obj[1] = {foo:'foo'};
+    obj[0] = {};
+    obj[0].foo = [document.getElementById('testId')];
 
+    // extend method test
     domglue.extend(obj),
     ok(obj.foo, 'extend');
+
+    // update name test
+    domglue.updateName(obj, 'foo');
+    equal(obj[0].foo[0].innerHTML, 'foo', 'updateName');
 
 });
