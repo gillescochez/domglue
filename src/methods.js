@@ -13,9 +13,7 @@ extend(domglue, {
 
     // update a specific data key
     updateName: function(instance, name) {
-	for (i = 0, len = instance[0][name].length; i < len; i++ ){
-	    instance[0][name][i].innerHTML = instance[1][name];
-	}
+	for (i = 0, len = instance[0][name].length; i < len; i++ ) instance[0][name][i].innerHTML = instance[1][name];
     },
 
     // extend current instance with data based methods
@@ -43,7 +41,7 @@ extend(domglue, {
 
 	if (target.length) {
 	    for (i = 0, len = target.length; i < len; i++) {
-		domglue.bind(instance, target[i], data, options);
+		this.bind(instance, target[i], data, options);
 	    }
 	    return;
 	}

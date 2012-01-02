@@ -50,3 +50,26 @@ test('Methods', function() {
     equal(obj[0].foo[0].innerHTML, 'FOO', 'update');
 
 });
+
+test('Templates', function() {
+
+    expect(3);
+    
+    // id based test
+    domglue('#testId', {foo:'foohoo'});
+    equal(document.getElementById('testId').innerHTML, 'foohoo', 'domglue(id, data)');
+
+    // class based test
+    domglue('div.testClass', {foo:'foohoo'});
+    var els = document.getElementsByClassName('testClass'),
+	len = els.length,
+	str = '',
+	i = 0;
+    for (; i < len; i++) str += els[i].innerHTML;
+    equal(str, 'foohoofoohoofoohoo', 'domglue(class, data)');
+    
+    // id based with custom attribute
+    domglue('#boo', {foo:'foohoo'}, {attr:'data-key'});
+    equal(document.getElementById('boo').innerHTML, 'foohoo', 'domglue(id, data, options)');
+
+});
